@@ -1,0 +1,32 @@
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "extends": "airbnb-typescript",
+    "globals": {
+        "Atomics": "readonly"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+    },
+    "rules": {
+        "quotes": ["error", "single"],
+        "indent": ["off"],
+        "max-len": ["off"],
+        "class-methods-use-this": ["off"],
+        "max-classes-per-file": ["off"],
+        "@typescript-eslint/indent": ["error", 4]
+    },
+    "settings": {
+        "react": {
+            "version": "latest"
+        }
+    }
+}
