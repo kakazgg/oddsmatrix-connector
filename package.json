@@ -10,6 +10,9 @@
     "license": "ISC",
     "dependencies": {
         "@everymatrix/om-connector": "^0.0.13",
+        "express": "^4.18.1",
+        "mongoose": "^6.6.3",
+        "socket.io": "^4.5.2",
         "typescript": "3.9.5"
     }
 }

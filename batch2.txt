@@ -1,0 +1,358 @@
+initialData =-=-=-=-=-= {
+  dumpComplete: false,
+  entities: [
+    { entityClass: 'Sport', name: 'Football', id: '1', version: 0 },
+    { entityClass: 'Sport', name: 'Golf', id: '2', version: 0 },
+    { entityClass: 'Sport', name: 'Tennis', id: '3', version: 0 },
+    { entityClass: 'Sport', name: 'Am. Football', id: '5', version: 0 },
+    { entityClass: 'Sport', name: 'Ice Hockey', id: '6', version: 0 },
+    { entityClass: 'Sport', name: 'Handball', id: '7', version: 0 },
+    { entityClass: 'Sport', name: 'Basketball', id: '8', version: 0 },
+    { entityClass: 'Sport', name: 'Baseball', id: '9', version: 0 },
+    {
+      entityClass: 'Sport',
+      name: 'Field Hockey',
+      id: '10',
+      version: 0
+    },
+    { entityClass: 'Sport', name: 'Softball', id: '11', version: 0 },
+    {
+      entityClass: 'Sport',
+      name: 'Weightlifting',
+      id: '12',
+      version: 0
+    },
+    { entityClass: 'Sport', name: 'Athletics', id: '13', version: 0 },
+    { entityClass: 'Sport', name: 'Badminton', id: '14', version: 0 },
+    { entityClass: 'Sport', name: 'Gymnastics', id: '15', version: 0 },
+    { entityClass: 'Sport', name: 'Rowing', id: '16', version: 0 },
+    { entityClass: 'Sport', name: 'Sailing', id: '17', version: 0 },
+    { entityClass: 'Sport', name: 'Swimming', id: '18', version: 0 },
+    { entityClass: 'Sport', name: 'Triathlon', id: '19', version: 0 },
+    { entityClass: 'Sport', name: 'Volleyball', id: '20', version: 0 },
+    {
+      entityClass: 'Sport',
+      name: 'Wintersports',
+      id: '21',
+      version: 0
+    },
+    { entityClass: 'Sport', name: 'Water Polo', id: '22', version: 0 },
+    {
+      entityClass: 'Sport',
+      name: 'Motor Racing',
+      id: '23',
+      version: 0
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Horse Racing',
+      id: '24',
+      version: 0
+    },
+    { entityClass: 'Sport', name: 'Fighting', id: '25', version: 0 },
+    { entityClass: 'Sport', name: 'Cricket', id: '26', version: 0 },
+    { entityClass: 'Sport', name: 'Greyhounds', id: '27', version: 0 },
+    {
+      entityClass: 'Sport',
+      name: 'Rugby League',
+      id: '28',
+      version: 0
+    },
+    { entityClass: 'Sport', name: 'Specials', id: '34', version: 0 },
+    { entityClass: 'Sport', name: 'Snooker', id: '36', version: 0 },
+    { entityClass: 'Sport', name: 'Cycling', id: '37', version: 0 },
+    { entityClass: 'Sport', name: 'AFL', id: '38', version: 0 },
+    { entityClass: 'Sport', name: 'Rugby Union', id: '39', version: 0 },
+    { entityClass: 'Sport', name: 'Bandy', id: '40', version: 0 },
+    { entityClass: 'Sport', name: 'Floorball', id: '41', version: 0 },
+    { entityClass: 'Sport', name: 'Darts', id: '45', version: 0 },
+    { entityClass: 'Sport', name: 'Hurling', id: '46', version: 0 },
+    {
+      entityClass: 'Sport',
+      name: 'Gaelic Football',
+      id: '47',
+      version: 0
+    },
+    { entityClass: 'Sport', name: 'Pool', id: '48', version: 0 },
+    { entityClass: 'Sport', name: 'Futsal', id: '49', version: 0 },
+    { entityClass: 'Sport', name: 'Surfing', id: '50', version: 0 },
+    { entityClass: 'Sport', name: 'Poker', id: '51', version: 0 },
+    { entityClass: 'Sport', name: 'Chess', id: '52', version: 0 },
+    {
+      entityClass: 'Sport',
+      name: 'Alpine Skiing',
+      id: '53',
+      version: 0
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Cross Country Skiing',
+      id: '54',
+      version: 0
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Freestyle Skiing',
+      id: '55',
+      version: 0
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Nordic Combined',
+      id: '56',
+      version: 0
+    },
+    { entityClass: 'Sport', name: 'Ski Jumping', id: '57', version: 0 },
+    { entityClass: 'Sport', name: 'Snowboard', id: '58', version: 0 },
+    { entityClass: 'Sport', name: 'Biathlon', id: '59', version: 0 },
+    { entityClass: 'Sport', name: 'Curling', id: '60', version: 0 },
+    { entityClass: 'Sport', name: 'Bobsleigh', id: '61', version: 0 },
+    { entityClass: 'Sport', name: 'Lacrosse', id: '62', version: 0 },
+    {
+      entityClass: 'Sport',
+      name: 'Table Tennis',
+      id: '63',
+      version: 0
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Beach Volleyball',
+      id: '64',
+      version: 0
+    },
+    { entityClass: 'Sport', name: 'Canoeing', id: '65', version: 0 },
+    {
+      entityClass: 'Sport',
+      name: 'Beach Football',
+      id: '66',
+      version: 0
+    },
+    { entityClass: 'Sport', name: 'Bowls', id: '67', version: 0 },
+    { entityClass: 'Sport', name: 'Luge', id: '68', version: 0 },
+    {
+      entityClass: 'Sport',
+      name: 'Figure Skating',
+      id: '69',
+      version: 0
+    },
+    { entityClass: 'Sport', name: 'Skeleton', id: '70', version: 0 },
+    {
+      entityClass: 'Sport',
+      name: 'Speed Skating',
+      id: '71',
+      version: 0
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Short Track Speed Skating',
+      id: '72',
+      version: 0
+    },
+    { entityClass: 'Sport', name: 'Netball', id: '73', version: 0 },
+    {
+      entityClass: 'Sport',
+      name: 'Harness Racing',
+      id: '74',
+      version: 0
+    },
+    { entityClass: 'Sport', name: 'Fencing', id: '75', version: 0 },
+    { entityClass: 'Sport', name: 'Squash', id: '76', version: 0 },
+    { entityClass: 'Sport', name: 'Horseball', id: '77', version: 0 },
+    { entityClass: 'Sport', name: 'Judo', id: '78', version: 0 },
+    { entityClass: 'Sport', name: 'Petanque', id: '79', version: 0 },
+    {
+      entityClass: 'Sport',
+      name: 'Basque Pelota',
+      id: '80',
+      version: 0
+    },
+    { entityClass: 'Sport', name: 'Diving', id: '81', version: 0 },
+    {
+      entityClass: 'Sport',
+      name: 'Equestrian Sports',
+      id: '82',
+      version: 0
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Virtual Sports',
+      id: '83',
+      version: 1
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Sepak takraw',
+      description: 'Sepak takraw or kick volleyball, is a sport native to the Malay-Thai Peninsula. Sepak takraw differs from the similar sport of volleyball in its use of a rattan ball and only allowing players to use their feet, knee, chest and head to touch the ball.',
+      id: '84',
+      version: 0
+    },
+    { entityClass: 'Sport', name: 'Archery', id: '85', version: 0 },
+    {
+      entityClass: 'Sport',
+      name: 'Virtual Football',
+      id: '86',
+      version: 2,
+      parentId: '83'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Virtual Horse Racing',
+      id: '87',
+      version: 0,
+      parentId: '83'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Virtual Greyhounds',
+      id: '88',
+      version: 0,
+      parentId: '83'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Pesapallo',
+      description: 'Pesapallo is a fast-moving bat-and-ball sport that is quite often referred to as the national sport of Finland and has some presence in other countries. The game is similar to brannboll, rounders, baseball and lapta.',
+      id: '89',
+      version: 2
+    },
+    {
+      entityClass: 'Sport',
+      name: 'E-Sports (old)',
+      id: '90',
+      version: 1
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Virtual Tennis',
+      id: '91',
+      version: 2,
+      parentId: '83'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Virtual Basketball',
+      id: '92',
+      version: 0,
+      parentId: '83'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Fantasy Duels',
+      description: 'Fantasy match requests by OM operators.',
+      id: '93',
+      version: 1
+    },
+    { entityClass: 'Sport', name: 'eSports', id: '96', version: 2 },
+    {
+      entityClass: 'Sport',
+      name: 'CS:GO',
+      description: 'Counter Strike: Global Offensive',
+      id: '98',
+      version: 0,
+      parentId: '96'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'DOTA 2',
+      description: 'Defence Of The Ancients',
+      id: '99',
+      version: 2,
+      parentId: '96'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'LOL',
+      description: 'League Of Legends',
+      id: '100',
+      version: 0,
+      parentId: '96'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Price boost',
+      id: '101',
+      version: 0
+    },
+    { entityClass: 'Sport', name: 'Bowling', id: '102', version: 0 },
+    {
+      entityClass: 'Sport',
+      name: 'Hearthstone',
+      id: '103',
+      version: 0,
+      parentId: '96'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Heroes Of The Storm',
+      id: '104',
+      version: 0,
+      parentId: '96'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'King Of Glory',
+      id: '105',
+      version: 0,
+      parentId: '96'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'NBA2k',
+      description: 'Basketball simulation video games - National Basketball Association published by 2k Sports (American video game publisher).',
+      id: '106',
+      version: 1,
+      parentId: '96'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Overwatch',
+      id: '107',
+      version: 0,
+      parentId: '96'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Rocket League',
+      id: '108',
+      version: 0,
+      parentId: '96'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Starcraft Broodwar',
+      id: '109',
+      version: 0,
+      parentId: '96'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Starcraft 2',
+      id: '110',
+      version: 0,
+      parentId: '96'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'New Sign-up 1st Bet Boost',
+      description: 'Custom odds added by the Client.',
+      id: '111',
+      version: 1
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Rainbow Six',
+      id: '112',
+      version: 0,
+      parentId: '96'
+    },
+    {
+      entityClass: 'Sport',
+      name: 'Virtual eSports',
+      id: '113',
+      version: 2
+    },
+    ... 59 more items
+  ],
+  batchId: 1,
+  batchesLeft: '2404'
+}
