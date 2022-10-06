@@ -1,24 +1,3 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-
-main().catch((err) => console.log(err));
-// local mongoos
-//mongodb://localhost:27017/bfg
-
-async function main() {
-  await mongoose.connect(
-    "mongodb+srv://naeem:wHOBg9GyYb6ZzRzd@bfgdata.bj52u.mongodb.net/bfg?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  );
-  console.log("connected ...");
-  // use `await mongoose.connect('mongodb://user:password@localhost:27017/test');` if your database has auth enabled
-}
-var entitySchema = new Schema({}, { strict: false });
-var Entity = mongoose.model("Entity", entitySchema);
-
 const {
   onProcessExit,
   pullListenTo,
@@ -28,6 +7,11 @@ const {
   SEPCPullConnector,
   SEPCPushConnector,
 } = require("@everymatrix/om-connector");
+const {
+  initializeEntities,
+  updateInitializeEntities,
+  removeInitialData,
+} = require("../controllers/entityControllers");
 
 // SWITCH ON DEBUG MODE TO SEE MORE INFO
 toggleDebugMode(true);
@@ -45,30 +29,26 @@ class MyPushConnector extends SEPCPushConnector {
 
   // override method responsible for notifying
   // about new initial data messages
-  notifyInitialDump(initialData) {
-    console.log("data", initialData);
+  async notifyInitialDump(initialData) {
     console.log(
       "initialData =-=-=-=-=-=",
       initialData.batchId,
       "batchleft",
       initialData.batchesLeft
     );
-    const entity = initialData.entities[0].entityClass;
-    var Entity = mongoose.model(entity, entitySchema);
-    console.log(entity);
-    Entity.insertMany(initialData.entities)
-      .then(function () {
-        console.log("Data inserted"); // Success
-      })
-      .catch(function (error) {
-        console.log(error); // Failure
-      });
+    // remove existing initial entities
+    await removeInitialData();
+    // insert all the initial data
+    await initializeEntities(initialData.entities);
+    console.log("Data Initialized");
   }
 
   // override method responsible for notifying
   // about new update messages
-  notifyEntityUpdates(updateData) {
-    console.log("this is the update data", updateData);
+  async notifyEntityUpdates(updateData) {
+    //console.log("this is the update data", updateData);
+    await updateInitializeEntities(updateData.changes);
+    console.log("Data updated");
   }
 
   // return the last saved uuid as you see fit, in order to avoid re-subscription
@@ -92,6 +72,10 @@ pushConnector.start("LawleyandAllen");
 
 pushListenTo(Events.runtimeError, (error) => {
   // process different errors that could occur
+});
+pushListenTo(Events.ConnectorExit, () => {
+  // pushConnector stopped here
+  pushConnector.stop();
 });
 
 // call stop() to close the connection and to avoid memory leaks
