@@ -35,6 +35,8 @@ exports.getEntities = catchAsync(async (req, res, next) => {
   const entities = await features.query;
   res.status(200).json({
     status: "success",
+
+    result: entities.length,
     data: entities,
   });
 });

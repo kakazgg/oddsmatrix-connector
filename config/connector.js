@@ -36,8 +36,7 @@ class MyPushConnector extends SEPCPushConnector {
       "batchleft",
       initialData.batchesLeft
     );
-    // remove existing initial entities
-    await removeInitialData();
+
     // insert all the initial data
     await initializeEntities(initialData.entities);
     console.log("Data Initialized");
@@ -48,6 +47,7 @@ class MyPushConnector extends SEPCPushConnector {
   async notifyEntityUpdates(updateData) {
     //console.log("this is the update data", updateData);
     await updateInitializeEntities(updateData.changes);
+    io.emit("update", updateData.changes);
     console.log("Data updated");
   }
 
