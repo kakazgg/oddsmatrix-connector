@@ -29,7 +29,7 @@ class MyPushConnector extends SEPCPushConnector {
 
   // override method responsible for notifying
   // about new initial data messages
-  async notifyInitialDump(initialData) {
+  notifyInitialDump(initialData) {
     console.log(
       "initialData =-=-=-=-=-=",
       initialData.batchId,
@@ -38,17 +38,27 @@ class MyPushConnector extends SEPCPushConnector {
     );
 
     // insert all the initial data
-    await initializeEntities(initialData.entities);
-    console.log("Data Initialized");
+    initializeEntities(initialData.entities)
+      .then(() => {
+        console.log("Data Initialized");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   // override method responsible for notifying
   // about new update messages
-  async notifyEntityUpdates(updateData) {
+  notifyEntityUpdates(updateData) {
     //console.log("this is the update data", updateData);
-    await updateInitializeEntities(updateData.changes);
+    updateInitializeEntities(updateData.changes)
+      .then(() => {
+        console.log("Data updated");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     io.emit("update", updateData.changes);
-    console.log("Data updated");
   }
 
   // return the last saved uuid as you see fit, in order to avoid re-subscription
@@ -72,10 +82,7 @@ pushConnector.start("LawleyandAllen");
 
 pushListenTo(Events.runtimeError, (error) => {
   // process different errors that could occur
-});
-pushListenTo(Events.ConnectorExit, () => {
-  // pushConnector stopped here
-  pushConnector.stop();
+  console.log(error);
 });
 
 // call stop() to close the connection and to avoid memory leaks

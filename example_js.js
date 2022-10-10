@@ -46,7 +46,7 @@ class MyPushConnector extends SEPCPushConnector {
   // override method responsible for notifying
   // about new initial data messages
   notifyInitialDump(initialData) {
-    console.log("data", initialData);
+    //console.log("data", initialData);
     console.log(
       "initialData =-=-=-=-=-=",
       initialData.batchId,
