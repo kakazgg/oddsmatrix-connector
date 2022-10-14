@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "Javascript NodeConnector examples.",
   "scripts": {
-    "start": "nodemon index",
+    "start": "node index",
+    "dev": "nodemon index",
     "start:js": "node ./example_js.js",
     "start:ts": "rm -rf ./build && tsc --project ./tsconfig.json && node ./build/example_ts.js"
   },
