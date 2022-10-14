@@ -1,3 +1,4 @@
+const Entity = require("../models/entityModel");
 const {
   onProcessExit,
   pullListenTo,
@@ -38,13 +39,20 @@ class MyPushConnector extends SEPCPushConnector {
     );
 
     // insert all the initial data
-    initializeEntities(initialData.entities)
+    Entity.insertMany(initialData.entities)
       .then(() => {
-        console.log("Data Initialized");
+        console.log("Data Inserted");
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
       });
+    // initializeEntities(initialData.entities)
+    //   .then(() => {
+    //     console.log("Data Initialized");
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }
 
   // override method responsible for notifying
@@ -54,11 +62,11 @@ class MyPushConnector extends SEPCPushConnector {
     updateInitializeEntities(updateData.changes)
       .then(() => {
         console.log("Data updated");
+        io.emit("update", updateData.changes);
       })
       .catch((err) => {
         console.log(err);
       });
-    io.emit("update", updateData.changes);
   }
 
   // return the last saved uuid as you see fit, in order to avoid re-subscription

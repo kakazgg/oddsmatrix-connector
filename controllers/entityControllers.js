@@ -27,15 +27,16 @@ exports.updateInitializeEntities = async (changes) => {
 };
 
 exports.getEntities = catchAsync(async (req, res, next) => {
-  const features = new ApiFeatures(Entity.find(), req.query)
+  const features = new ApiFeatures(Entity.find(), { ...req.query })
     .filter()
     .paginate()
     .sort()
     .limitFields();
   const entities = await features.query;
+  const total = await Entity.countDocuments(req.query);
   res.status(200).json({
     status: "success",
-
+    total,
     result: entities.length,
     data: entities,
   });
