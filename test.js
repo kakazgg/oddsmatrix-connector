@@ -126,7 +126,7 @@ class MyPullConnector extends SEPCPullConnector {
 // NOTE: for SEPCPushConnector protocol must be absent
 
 // replace host and port with proper ones
-const pushConnector = new MyPushConnector("sept.oddsmatrix.com", 7000);
+// const pushConnector = new MyPushConnector("sept.oddsmatrix.com", 7000);
 const pullConnector = new MyPullConnector("sept.oddsmatrix.com", 7000);
 
 // provide subscription name
