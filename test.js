@@ -1,3 +1,5 @@
+const express = require("express");
+const app = express();
 // const mongoose = require("mongoose");
 // const Schema = mongoose.Schema;
 
@@ -96,3 +98,8 @@ pushListenTo(Events.runtimeError, (error) => {
 
 // call stop() to close the connection and to avoid memory leaks
 onProcessExit(pushConnector.stop);
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`app is running on port ${PORT}`);
+});
