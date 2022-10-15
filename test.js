@@ -78,6 +78,46 @@ class MyPushConnector extends SEPCPushConnector {
     return this.lastChangeBatchUuid;
   }
 }
+class MyPullConnector extends SEPCPullConnector {
+  // constructor(url, port) {
+  //   super(url, port);
+  // }
+  // variable where the last update batch uuid will be saved; use your own logic to save the latest processed update
+  lastChangeBatchUuid = null;
+
+  // override method responsible for notifying
+  // about new initial data messages
+  notifyInitialDump(initialData) {
+    //console.log("data", initialData);
+    console.log(
+      "initialData =-=-=-=-=-=",
+      initialData.batchId,
+      "batchleft",
+      initialData.batchesLeft
+    );
+    // const entity = initialData.entities[0].entityClass;
+    // var Entity = mongoose.model(entity, entitySchema);
+    // console.log(entity);
+    // Entity.insertMany(initialData.entities)
+    //   .then(function () {
+    //     console.log("Data inserted"); // Success
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error); // Failure
+    //   });
+  }
+
+  // override method responsible for notifying
+  // about new update messages
+  notifyEntityUpdates(updateData) {
+    console.log("data update");
+  }
+
+  // return the last saved uuid as you see fit, in order to avoid re-subscription
+  getLastAppliedEntityChangeBatchUuid() {
+    return this.lastChangeBatchUuid;
+  }
+}
 // const thing = new Thing({ iAmNotInTheSchema: true });
 // thing.save(); // iAmNotInTheSchema is not saved to the db
 
@@ -87,17 +127,23 @@ class MyPushConnector extends SEPCPushConnector {
 
 // replace host and port with proper ones
 const pushConnector = new MyPushConnector("sept.oddsmatrix.com", 7000);
+const pullConnector = new MyPullConnector("sept.oddsmatrix.com", 7000);
 
 // provide subscription name
 // replace with proper subscriptionName
-pushConnector.start("LawleyandAllen");
+// pushConnector.start("LawleyandAllen");
+pullConnector.start("LawleyandAllen", 3000);
 
-pushListenTo(Events.runtimeError, (error) => {
+// pushListenTo(Events.runtimeError, (error) => {
+//   // process different errors that could occur
+// });
+pullListenTo(Events.runtimeError, (error) => {
   // process different errors that could occur
 });
 
 // call stop() to close the connection and to avoid memory leaks
-onProcessExit(pushConnector.stop);
+// onProcessExit(pushConnector.stop);
+onProcessExit(pullConnector.stop);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
