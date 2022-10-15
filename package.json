@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Javascript NodeConnector examples.",
   "scripts": {
-    "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 index",
+    "start": "node test",
     "dev": "nodemon index",
     "start:js": "node ./example_js.js",
     "start:ts": "rm -rf ./build && tsc --project ./tsconfig.json && node ./build/example_ts.js"
