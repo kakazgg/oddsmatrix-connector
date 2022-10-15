@@ -132,7 +132,7 @@ const pullConnector = new MyPullConnector("sept.oddsmatrix.com", 7000);
 // provide subscription name
 // replace with proper subscriptionName
 // pushConnector.start("LawleyandAllen");
-pullConnector.start("LawleyandAllen", 3000);
+pullConnector.start("LawleyandAllen");
 
 // pushListenTo(Events.runtimeError, (error) => {
 //   // process different errors that could occur
