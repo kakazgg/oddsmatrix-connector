@@ -6,7 +6,10 @@ exports.removeInitialData = async () => {
   await Entity.deleteMany();
 };
 exports.initializeEntities = async (entities) => {
-  await Entity.insertMany(entities);
+  for (let i = 0; i < entities.length; i++) {
+    await Entity.create(entities[i]);
+  }
+  // await Entity.insertMany(entities);
 };
 
 exports.updateInitializeEntities = async (changes) => {

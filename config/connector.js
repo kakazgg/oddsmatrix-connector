@@ -35,24 +35,27 @@ class MyPushConnector extends SEPCPushConnector {
       "initialData =-=-=-=-=-=",
       initialData.batchId,
       "batchleft",
-      initialData.batchesLeft
+      initialData.batchesLeft,
+      "Data size-----",
+      initialData.entities.length
     );
 
     // insert all the initial data
-    Entity.bulkWrite(
-      initialData.entities.map((doc) => ({
-        insertOne: {
-          document: doc,
-        },
-      }))
-    )
-      .then(() => {
-        console.log(`Data Inserted ${countInserted}`);
-        countInserted++;
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    initializeEntities(initialData.entities);
+    // Entity.bulkWrite(
+    //   initialData.entities.map((doc) => ({
+    //     insertOne: {
+    //       document: doc,
+    //     },
+    //   }))
+    // )
+    //   .then(() => {
+    //     console.log(`Data Inserted ${countInserted}`);
+    //     countInserted++;
+    //   })
+    //   .catch((err) => {
+    //     console.log(err.message);
+    //   });
     // initializeEntities(initialData.entities)
     //   .then(() => {
     //     console.log("Data Initialized");
