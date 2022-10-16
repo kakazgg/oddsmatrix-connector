@@ -39,7 +39,7 @@ class MyPushConnector extends SEPCPushConnector {
     );
 
     // insert all the initial data
-    Entity.insertMany(initialData.entities)
+    Entity.bulkWrite(initialData.entities)
       .then(() => {
         console.log("Data Inserted");
       })
