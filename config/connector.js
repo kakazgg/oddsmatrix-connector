@@ -41,7 +41,7 @@ class MyPushConnector extends SEPCPushConnector {
     );
 
     // insert all the initial data
-    initializeEntities(initialData.entities);
+    //initializeEntities(initialData.entities);
     // Entity.bulkWrite(
     //   initialData.entities.map((doc) => ({
     //     insertOne: {
