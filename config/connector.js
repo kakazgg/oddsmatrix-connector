@@ -20,7 +20,7 @@ toggleDebugMode(true);
 // //////////////
 // PUSH CONNECTOR
 // //////////////
-
+let countInserted = 1;
 class MyPushConnector extends SEPCPushConnector {
   // constructor(url, port) {
   //   super(url, port);
@@ -39,9 +39,16 @@ class MyPushConnector extends SEPCPushConnector {
     );
 
     // insert all the initial data
-    Entity.bulkSave(initialData.entities)
+    Entity.bulkWrite(
+      initialData.entities.map((doc) => ({
+        insertOne: {
+          document: doc,
+        },
+      }))
+    )
       .then(() => {
-        console.log("Data Inserted");
+        console.log(`Data Inserted ${countInserted}`);
+        countInserted++;
       })
       .catch((err) => {
         console.log(err.message);
