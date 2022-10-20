@@ -94,9 +94,10 @@ const connector = () => {
 MongoClient.connect(
   "mongodb+srv://naeem:wHOBg9GyYb6ZzRzd@bfgdata.bj52u.mongodb.net/entity?retryWrites=true&w=majority"
 )
-  .then((client) => {
+  .then(async (client) => {
     db = client.db();
     console.log("DB connected");
+    db.collection("entities")?.createIndex({ entityClass: 1, id: 1 });
     server.listen(port, () => {
       console.log("App is running");
     });
