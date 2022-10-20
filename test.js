@@ -1,4 +1,9 @@
 const { MongoClient } = require("mongodb");
+const http = require("http");
+const server = http.createServer((req, res) => {
+  console.log("hello");
+});
+const port = process.env.PORT || 4000;
 const {
   onProcessExit,
   pullListenTo,
@@ -92,6 +97,9 @@ MongoClient.connect(
   .then((client) => {
     db = client.db();
     console.log("DB connected");
+    server.listen(port, () => {
+      console.log("App is running");
+    });
     connector();
   })
   .catch((err) => {
