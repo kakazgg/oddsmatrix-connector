@@ -1,26 +1,4 @@
-const express = require("express");
-const app = express();
-// const mongoose = require("mongoose");
-// const Schema = mongoose.Schema;
-
-// main().catch((err) => console.log(err));
-// local mongoos
-//mongodb://localhost:27017/bfg
-
-// async function main() {
-//   await mongoose.connect(
-//     "mongodb+srv://naeem:wHOBg9GyYb6ZzRzd@bfgdata.bj52u.mongodb.net/entity?retryWrites=true&w=majority",
-//     {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//     }
-//   );
-//   console.log("connected ...");
-//   // use `await mongoose.connect('mongodb://user:password@localhost:27017/test');` if your database has auth enabled
-// }
-// var entitySchema = new Schema({}, { strict: false });
-// var Entity = mongoose.model("Entity", entitySchema);
-
+const { MongoClient } = require("mongodb");
 const {
   onProcessExit,
   pullListenTo,
@@ -33,6 +11,7 @@ const {
 
 // SWITCH ON DEBUG MODE TO SEE MORE INFO
 toggleDebugMode(true);
+let db;
 
 // //////////////
 // PUSH CONNECTOR
@@ -55,16 +34,22 @@ class MyPushConnector extends SEPCPushConnector {
       "batchleft",
       initialData.batchesLeft
     );
-    // const entity = initialData.entities[0].entityClass;
-    // var Entity = mongoose.model(entity, entitySchema);
-    // console.log(entity);
-    // Entity.insertMany(initialData.entities)
-    //   .then(function () {
-    //     console.log("Data inserted"); // Success
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error); // Failure
-    //   });
+
+    db.collection("entities")
+      .bulkWrite(
+        initialData.entities.map((doc) => ({
+          insertOne: {
+            document: doc,
+          },
+        }))
+      )
+      .then(() => {
+        console.log(`Data Inserted ${countInserted}`);
+        countInserted++;
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }
 
   // override method responsible for notifying
@@ -78,28 +63,42 @@ class MyPushConnector extends SEPCPushConnector {
     return this.lastChangeBatchUuid;
   }
 }
-// const thing = new Thing({ iAmNotInTheSchema: true });
-// thing.save(); // iAmNotInTheSchema is not saved to the db
+const connector = () => {
+  // const thing = new Thing({ iAmNotInTheSchema: true });
+  // thing.save(); // iAmNotInTheSchema is not saved to the db
 
-// create new instance of extended connector
-// pass as arguments host and port
-// NOTE: for SEPCPushConnector protocol must be absent
+  // create new instance of extended connector
+  // pass as arguments host and port
+  // NOTE: for SEPCPushConnector protocol must be absent
 
-// replace host and port with proper ones
-const pushConnector = new MyPushConnector("sept.oddsmatrix.com", 7000);
+  // replace host and port with proper ones
+  const pushConnector = new MyPushConnector("sept.oddsmatrix.com", 7000);
 
-// provide subscription name
-// replace with proper subscriptionName
-pushConnector.start("LawleyandAllen");
+  // provide subscription name
+  // replace with proper subscriptionName
+  pushConnector.start("LawleyandAllen");
 
-pushListenTo(Events.runtimeError, (error) => {
-  // process different errors that could occur
-});
+  pushListenTo(Events.runtimeError, (error) => {
+    // process different errors that could occur
+  });
 
-// call stop() to close the connection and to avoid memory leaks
-onProcessExit(pushConnector.stop);
+  // call stop() to close the connection and to avoid memory leaks
+  onProcessExit(pushConnector.stop);
+};
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`app is running on port ${PORT}`);
-});
+MongoClient.connect(
+  "mongodb+srv://naeem:wHOBg9GyYb6ZzRzd@bfgdata.bj52u.mongodb.net/entity?retryWrites=true&w=majority"
+)
+  .then((client) => {
+    db = client.db();
+    console.log("DB connected");
+    connector();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => {
+//   console.log(`app is running on port ${PORT}`);
+// });
