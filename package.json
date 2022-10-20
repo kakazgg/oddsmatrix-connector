@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Javascript NodeConnector examples.",
   "scripts": {
-    "start": "node test.js",
+    "start": "export NODE_OPTIONS=\"--max-old-space-size=30000\" && node test.js",
     "dev": "nodemon index",
     "start:js": "node ./example_js.js",
     "start:ts": "rm -rf ./build && tsc --project ./tsconfig.json && node ./build/example_ts.js"
