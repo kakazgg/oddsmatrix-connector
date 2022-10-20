@@ -17,7 +17,7 @@ const {
 // SWITCH ON DEBUG MODE TO SEE MORE INFO
 toggleDebugMode(true);
 let db;
-
+let countInserted = 1;
 // //////////////
 // PUSH CONNECTOR
 // //////////////
