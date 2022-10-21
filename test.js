@@ -18,9 +18,35 @@ const {
 toggleDebugMode(true);
 let db;
 let countInserted = 1;
+const batches = [];
+let isProcessing = false;
 // //////////////
 // PUSH CONNECTOR
 // //////////////
+
+const insertIntoDB = () => {
+  if (!batches.length) {
+    isProcessing = false;
+    return;
+  }
+  db.collection("entities")
+    .bulkWrite(
+      batches[0].map((doc) => ({
+        insertOne: {
+          document: doc,
+        },
+      }))
+    )
+    .then(() => {
+      console.log(`Data Inserted ${countInserted}`);
+      countInserted++;
+      batches.splice(0, 1);
+      insertIntoDB();
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
 
 class MyPushConnector extends SEPCPushConnector {
   // constructor(url, port) {
@@ -40,21 +66,11 @@ class MyPushConnector extends SEPCPushConnector {
       initialData.batchesLeft
     );
 
-    db.collection("entities")
-      .bulkWrite(
-        initialData.entities.map((doc) => ({
-          insertOne: {
-            document: doc,
-          },
-        }))
-      )
-      .then(() => {
-        console.log(`Data Inserted ${countInserted}`);
-        countInserted++;
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    batches.push(initialData.entities);
+    if (!isProcessing) {
+      isProcessing = true;
+      insertIntoDB();
+    }
   }
 
   // override method responsible for notifying
