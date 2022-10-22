@@ -5,25 +5,19 @@ const cors = require("cors");
 const { Server } = require("socket.io");
 const entityRouter = require("./routes/entityRoutes");
 dotenv.config();
-const { connectToDb, getDB } = require("./config/db");
+const db = require("./config/db");
+const { connector } = require("./config/connector");
 
 // db();
 const app = express();
 const server = http.createServer(app);
-const { removeInitialData } = require("./controllers/entityControllers");
+//const { removeInitialData } = require("./controllers/entityControllers");
 
 const io = new Server(server);
 const port = process.env.PORT || 4000;
-let db;
 //Database connection
-connectToDb((err) => {
-  if (!err) {
-    const { connector } = require("./config/connector");
-    db = getDB();
-    connector(db);
-    server.listen(port, () => console.log(`Listening on port ${port}`));
-  }
-});
+db();
+connector();
 // cors
 app.use(cors());
 // remove old data
@@ -45,4 +39,8 @@ app.all("*", (req, res) => {
       message: "Route could not found",
     },
   });
+});
+
+server.listen(port, () => {
+  console.log("App is listen on port ", port);
 });

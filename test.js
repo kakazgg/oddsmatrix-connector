@@ -76,7 +76,31 @@ class MyPushConnector extends SEPCPushConnector {
   // override method responsible for notifying
   // about new update messages
   notifyEntityUpdates(updateData) {
-    console.log("data update");
+    console.log("Update data length==", updateData.changes.length);
+    updateData.changes.map((change) => {
+      if (change?.type === "update") {
+        db.collection("entities")
+          .findOneAndUpdate(
+            { id: change?.id, entityClass: change.entityClass },
+            change
+          )
+          .then(() => {
+            console.log("data update");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else if (change?.type === "delete") {
+        db.collection("entities")
+          .findOneAndDelete({ id: change?.id, entityClass: change.entityClass })
+          .then(() => {
+            console.log("data Deleted");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
   }
 
   // return the last saved uuid as you see fit, in order to avoid re-subscription

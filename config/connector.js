@@ -1,4 +1,3 @@
-const Entity = require("../models/entityModel");
 const {
   onProcessExit,
   pullListenTo,
@@ -15,7 +14,7 @@ const {
 } = require("../controllers/entityControllers");
 
 module.exports = {
-  connector: (db) => {
+  connector: () => {
     // SWITCH ON DEBUG MODE TO SEE MORE INFO
     toggleDebugMode(true);
 
@@ -44,21 +43,7 @@ module.exports = {
 
         // insert all the initial data
         //initializeEntities(initialData.entities);
-        db.collection("entities")
-          .bulkWrite(
-            initialData.entities.map((doc) => ({
-              insertOne: {
-                document: doc,
-              },
-            }))
-          )
-          .then(() => {
-            console.log(`Data Inserted ${countInserted}`);
-            countInserted++;
-          })
-          .catch((err) => {
-            console.log(err.message);
-          });
+
         // Entity.bulkWrite(
         //   initialData.entities.map((doc) => ({
         //     insertOne: {
@@ -86,14 +71,15 @@ module.exports = {
       // about new update messages
       notifyEntityUpdates(updateData) {
         //console.log("this is the update data", updateData);
+        console.log(updateData.changes.length);
         updateInitializeEntities(updateData.changes)
           .then(() => {
             console.log("Data updated");
-            io.emit("update", updateData.changes);
           })
           .catch((err) => {
             console.log(err);
           });
+        io.emit("update", updateData.changes);
       }
 
       // return the last saved uuid as you see fit, in order to avoid re-subscription
