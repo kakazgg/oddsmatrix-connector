@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "test": "node test.js",
     "start:js": "node ./example_js.js",
     "start:ts": "rm -rf ./build && tsc --project ./tsconfig.json && node ./build/example_ts.js"
   },
