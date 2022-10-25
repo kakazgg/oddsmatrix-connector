@@ -36,6 +36,11 @@ exports.getEntities = catchAsync(async (req, res, next) => {
     .sort()
     .limitFields();
   const entities = await features.query;
+  if (req?.query?.limit) {
+    req.query.limit = undefined;
+    req.query.page = undefined;
+  }
+  req.query.sort = undefined;
   const total = await Entity.countDocuments(req.query);
   res.status(200).json({
     status: "success",

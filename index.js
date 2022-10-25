@@ -6,18 +6,15 @@ const { Server } = require("socket.io");
 const entityRouter = require("./routes/entityRoutes");
 dotenv.config();
 const db = require("./config/db");
-const { connector } = require("./config/connector");
-
-// db();
+//const { connector } = require("./config/connector");
 const app = express();
 const server = http.createServer(app);
-//const { removeInitialData } = require("./controllers/entityControllers");
 
 const io = new Server(server);
 const port = process.env.PORT || 4000;
 //Database connection
 db();
-connector();
+//connector();
 // cors
 app.use(cors());
 // remove old data
