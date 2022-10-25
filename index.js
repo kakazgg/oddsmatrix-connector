@@ -4,16 +4,16 @@ const http = require("http");
 const cors = require("cors");
 const { Server } = require("socket.io");
 const entityRouter = require("./routes/entityRoutes");
+const globalRouter = require("./routes/globalRoutes");
 dotenv.config();
-const db = require("./config/db");
+const { connectToDb, getDB } = require("./config/db");
 //const { connector } = require("./config/connector");
 const app = express();
 const server = http.createServer(app);
 
 const io = new Server(server);
 const port = process.env.PORT || 4000;
-//Database connection
-db();
+
 //connector();
 // cors
 app.use(cors());
@@ -28,6 +28,7 @@ io.on("connection", (socket) => {
 });
 
 app.use("/entities", entityRouter);
+app.use("/global", globalRouter);
 
 app.all("*", (req, res) => {
   res.status(404).json({
@@ -38,6 +39,12 @@ app.all("*", (req, res) => {
   });
 });
 
-server.listen(port, () => {
-  console.log("App is listen on port ", port);
+//Database connection
+connectToDb((err) => {
+  if (!err) {
+    global.db = getDB();
+    server.listen(port, () => {
+      console.log("App is listen on port ", port);
+    });
+  }
 });

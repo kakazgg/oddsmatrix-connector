@@ -30,7 +30,7 @@ const insertIntoDB = () => {
     return;
   }
   const collectionName = batches[0][0]?.entityClass;
-  db.collection(collectionName).createIndex({ entityClass: 1, id: 1 });
+  //db.collection(collectionName).createIndex({ entityClass: 1, id: 1 });
   db.collection(collectionName)
     .bulkWrite(
       batches[0].map((doc) => ({
