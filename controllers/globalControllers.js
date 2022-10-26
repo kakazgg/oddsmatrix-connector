@@ -69,3 +69,28 @@ exports.events = catchAsync(async (req, res, next) => {
     data: docs,
   });
 });
+exports.sports = catchAsync(async (req, res, next) => {
+  let sports = await db.collection("Sport").find({}).sort("name").toArray();
+  sports = sports.map(async (sport) => {
+    try {
+      const event = await db.collection("Event").findOne({ sportId: sport.id });
+      if (event) {
+        return sport;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  });
+  sports = await Promise.all(sports);
+  sports = sports.filter((sport) => sport !== null);
+  const total = sports.length;
+  res.status(200).json({
+    status: "success",
+    total,
+    result: sports.length,
+    data: sports,
+  });
+});
