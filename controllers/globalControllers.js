@@ -39,25 +39,28 @@ exports.events = catchAsync(async (req, res, next) => {
     .sort();
 
   docs = await docs.query.toArray();
-  docs = docs.map(async (event) => {
-    const cloneEvent = { ...event };
-    const relations = await db
-      .collection("EventParticipantRelation")
-      .find({ eventId: cloneEvent.id })
-      .toArray();
+  // finding logos
+  if (req?.query?.typeId === "1") {
+    docs = docs.map(async (event) => {
+      const cloneEvent = { ...event };
+      const relations = await db
+        .collection("EventParticipantRelation")
+        .find({ eventId: cloneEvent.id })
+        .toArray();
 
-    let logosPromise = relations.map(async (item) => {
-      const participant = await db
-        .collection("Participant")
-        .findOne({ id: item.participantId });
+      let logosPromise = relations.map(async (item) => {
+        const participant = await db
+          .collection("Participant")
+          .findOne({ id: item.participantId });
 
-      return participant?.logoUrl;
+        return participant?.logoUrl;
+      });
+      logosPromise = await Promise.all(logosPromise);
+
+      return { ...cloneEvent, logos: logosPromise };
     });
-    logosPromise = await Promise.all(logosPromise);
-
-    return { ...cloneEvent, logos: logosPromise };
-  });
-  docs = await Promise.all(docs);
+    docs = await Promise.all(docs);
+  }
 
   const total = await db
     .collection("Event")
@@ -92,5 +95,37 @@ exports.sports = catchAsync(async (req, res, next) => {
     total,
     result: sports.length,
     data: sports,
+  });
+});
+exports.leagues = catchAsync(async (req, res, next) => {
+  const { sportId } = req.query;
+  let leagues = await db
+    .collection("EventTemplate")
+    .find({ sportId })
+    .sort("name")
+    .toArray();
+  leagues = leagues.map(async (league) => {
+    try {
+      const event = await db.collection("Event").findOne({
+        templateId: league.id,
+      });
+      if (event) {
+        return league;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  });
+  leagues = await Promise.all(leagues);
+  leagues = leagues.filter((league) => league !== null);
+  const total = leagues.length;
+  res.status(200).json({
+    status: "success",
+    total,
+    result: leagues.length,
+    data: leagues,
   });
 });
