@@ -108,6 +108,7 @@ exports.leagues = catchAsync(async (req, res, next) => {
     try {
       const event = await db.collection("Event").findOne({
         templateId: league.id,
+        typeId: "2",
       });
       if (event) {
         return league;
