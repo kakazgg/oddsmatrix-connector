@@ -47,18 +47,70 @@ exports.events = catchAsync(async (req, res, next) => {
         .collection("EventParticipantRelation")
         .find({ eventId: cloneEvent.id })
         .toArray();
-
-      let logosPromise = relations.map(async (item) => {
-        const participant = await db
-          .collection("Participant")
-          .findOne({ id: item.participantId });
-
-        return participant?.logoUrl;
-      });
-      logosPromise = await Promise.all(logosPromise);
+      const participantIds = relations.map((par) => par.participantId);
+      let logosPromise = await db
+        .collection("Participant")
+        .find({ id: { $in: participantIds } })
+        .toArray();
+      logosPromise = logosPromise
+        .filter((item) => item?.logoUrl)
+        .map((item) => item.logoUrl);
 
       return { ...cloneEvent, logos: logosPromise };
     });
+    docs = await Promise.all(docs);
+  }
+
+  const total = await db
+    .collection("Event")
+    .countDocuments(excludeFields({ ...req.query }));
+  res.status(200).json({
+    status: "success",
+    total,
+    result: docs.length,
+    data: docs,
+  });
+});
+exports.events2 = catchAsync(async (req, res, next) => {
+  if (req.query?.isComplete && req.query?.isComplete === "true") {
+    req.query.isComplete = true;
+  } else if (req.query?.isComplete && req.query?.isComplete === "false") {
+    req.query.isComplete = false;
+  }
+  let docs = new ApiFeatures(db.collection("Event"), {
+    ...req.query,
+    typeId: "2",
+  })
+    .filter()
+    .paginate()
+    .sort();
+
+  docs = await docs.query.toArray();
+  // finding logos
+  if (req?.query?.typeId === "1") {
+    const parentIds = docs.map((item) => item.id);
+    docs = await db
+      .collection("Event")
+      .find({ parentId: { $in: parentIds }, typeId: "1" })
+      .toArray();
+    docs = docs.map(async (event) => {
+      const cloneEvent = { ...event };
+      const relations = await db
+        .collection("EventParticipantRelation")
+        .find({ eventId: cloneEvent.id })
+        .toArray();
+      const participantIds = relations.map((par) => par.participantId);
+      let logosPromise = await db
+        .collection("Participant")
+        .find({ id: { $in: participantIds } })
+        .toArray();
+      logosPromise = logosPromise
+        .filter((item) => item?.logoUrl)
+        .map((item) => item.logoUrl);
+
+      return { ...cloneEvent, logos: logosPromise };
+    });
+
     docs = await Promise.all(docs);
   }
 
