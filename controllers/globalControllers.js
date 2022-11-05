@@ -1,6 +1,43 @@
 const catchAsync = require("../utils/catchAsync");
 const ApiFeatures = require("../utils/apiFeatures");
 
+const finedingOdds = async (eventId) => {
+  // get market
+  const market = await db.collection("Market").findOne({
+    eventId,
+    name: "Home Draw Away, Ordinary Time",
+  });
+  if (!market) return [0, 0, 0];
+  // event market relation
+  const marketRelations = await db
+    .collection("MarketOutcomeRelation")
+    .find({ marketId: market.id })
+    .toArray();
+  // outcome ids
+  const outcomeIds = marketRelations.map((item) => item.outcomeId);
+  // bettingOffers
+  const bettingOffers = await db
+    .collection("BettingOffer")
+    .find({ outcomeId: { $in: outcomeIds } })
+    .toArray();
+  const odds = bettingOffers.map((item) => item.odds);
+  return odds;
+};
+
+const finedingLogos = async (eventId) => {
+  const relations = await db
+    .collection("EventParticipantRelation")
+    .find({ eventId })
+    .toArray();
+  const participantIds = relations.map((par) => par.participantId);
+  let logos = await db
+    .collection("Participant")
+    .find({ id: { $in: participantIds } })
+    .toArray();
+  logos = logos.filter((item) => item?.logoUrl).map((item) => item.logoUrl);
+  return logos;
+};
+
 const excludeFields = (query) => {
   const fields = ["sort", "limit", "page", "collection"];
   fields.forEach((field) => {
@@ -95,20 +132,12 @@ exports.events2 = catchAsync(async (req, res, next) => {
       .toArray();
     docs = docs.map(async (event) => {
       const cloneEvent = { ...event };
-      const relations = await db
-        .collection("EventParticipantRelation")
-        .find({ eventId: cloneEvent.id })
-        .toArray();
-      const participantIds = relations.map((par) => par.participantId);
-      let logosPromise = await db
-        .collection("Participant")
-        .find({ id: { $in: participantIds } })
-        .toArray();
-      logosPromise = logosPromise
-        .filter((item) => item?.logoUrl)
-        .map((item) => item.logoUrl);
+      // odds
+      const odds = await finedingOdds(cloneEvent.id);
+      // logos
+      const logos = await finedingLogos(cloneEvent.id);
 
-      return { ...cloneEvent, logos: logosPromise };
+      return { ...cloneEvent, logos, odds };
     });
 
     docs = await Promise.all(docs);
