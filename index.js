@@ -5,6 +5,7 @@ const cors = require("cors");
 const { Server } = require("socket.io");
 const entityRouter = require("./routes/entityRoutes");
 const globalRouter = require("./routes/globalRoutes");
+const marketRouter = require("./routes/marketRoutes");
 dotenv.config();
 const { connectToDb, getDB } = require("./config/db");
 //const { connector } = require("./config/connector");
@@ -29,6 +30,7 @@ io.on("connection", (socket) => {
 
 app.use("/entities", entityRouter);
 app.use("/global", globalRouter);
+app.use("/markets", marketRouter);
 
 app.all("*", (req, res) => {
   res.status(404).json({

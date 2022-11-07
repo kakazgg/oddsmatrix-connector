@@ -1,5 +1,6 @@
 const catchAsync = require("../utils/catchAsync");
 const ApiFeatures = require("../utils/apiFeatures");
+const excludeFields = require("../utils/excludesFilterFields");
 
 const finedingOdds = async (eventId) => {
   // get market
@@ -36,14 +37,6 @@ const finedingLogos = async (eventId) => {
     .toArray();
   logos = logos.filter((item) => item?.logoUrl).map((item) => item.logoUrl);
   return logos;
-};
-
-const excludeFields = (query) => {
-  const fields = ["sort", "limit", "page", "collection"];
-  fields.forEach((field) => {
-    delete query[field];
-  });
-  return query;
 };
 
 exports.global = catchAsync(async (req, res, next) => {
