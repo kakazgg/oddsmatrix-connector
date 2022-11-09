@@ -2,7 +2,7 @@ const catchAsync = require("../utils/catchAsync");
 const ApiFeatures = require("../utils/apiFeatures");
 const excludeFields = require("../utils/excludesFilterFields");
 
-const findInitOdds = async (marketResult) => {
+const findInitOdds = async (marketResult, isGoal) => {
   let docs = marketResult.map(async (item) => {
     const marketRelations = await db
       .collection("MarketOutcomeRelation")
@@ -14,7 +14,10 @@ const findInitOdds = async (marketResult) => {
       .collection("BettingOffer")
       .find({ outcomeId: { $in: outcomeIds } })
       .toArray();
-    bettingOffer = bettingOffer.map((offer) => offer.odds);
+
+    if (isGoal) {
+      bettingOffer = [item, bettingOffer[0], bettingOffer[1]];
+    }
     return bettingOffer;
   });
   docs = await Promise.all(docs);
@@ -37,7 +40,7 @@ exports.initMarkets = catchAsync(async (req, res, next) => {
   }
   let BothTeams = await db
     .collection("Market")
-    .find({ eventId, name: { $regex: "Both Teams to Score", $options: "i" } })
+    .find({ eventId, name: "Both Teams To Score, Ordinary Time" })
     .toArray();
 
   if (BothTeams.length) {
@@ -45,10 +48,10 @@ exports.initMarkets = catchAsync(async (req, res, next) => {
   }
   let OverUnder = await db
     .collection("Market")
-    .find({ eventId, name: { $regex: "Over/Under", $options: "i" } })
+    .find({ eventId, name: { $regex: "Goals Over/Under", $options: "i" } })
     .toArray();
   if (OverUnder.length) {
-    OverUnder = await findInitOdds(OverUnder);
+    OverUnder = await findInitOdds(OverUnder, true);
   }
   let HomeDrawAwayFirst = await db
     .collection("Market")
