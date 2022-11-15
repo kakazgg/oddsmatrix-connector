@@ -107,6 +107,10 @@ exports.events2 = catchAsync(async (req, res, next) => {
   } else if (req.query?.isComplete && req.query?.isComplete === "false") {
     req.query.isComplete = false;
   }
+  if (req.query?.ids) {
+    req.query.id = { $in: req.query.ids.split(",") };
+    req.query.ids = undefined;
+  }
   let docs = new ApiFeatures(db.collection("Event"), {
     ...req.query,
     typeId: "2",
