@@ -14,7 +14,7 @@ const findInitOdds = async (marketResult, isGoal) => {
       .collection("BettingOffer")
       .find({ outcomeId: { $in: outcomeIds } })
       .toArray();
-
+    bettingOffer = bettingOffer.map((el) => ({ ...el, marketName: item.name }));
     if (isGoal) {
       bettingOffer = [item, bettingOffer[0], bettingOffer[1]];
     }
