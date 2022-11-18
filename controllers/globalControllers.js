@@ -21,7 +21,10 @@ const finedingOdds = async (eventId) => {
     .collection("BettingOffer")
     .find({ outcomeId: { $in: outcomeIds } })
     .toArray();
-  const odds = bettingOffers.map((item) => item.odds);
+  const odds = bettingOffers.map((item) => ({
+    ...item,
+    marketName: market.name,
+  }));
   return odds;
 };
 
